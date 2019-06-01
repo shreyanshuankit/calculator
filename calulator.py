@@ -1,15 +1,11 @@
 from tkinter import *
 
-p = []
-n = 0
-opr = 0
-num1 = 0
-num2 = 0
-x = 0
-p2 =0
+
+num1 = ""
+num2 = ""
 result = 0
-clk = 0
-clicked = 0
+click = 0
+add,sub,mul,div = False,False,False,False
 
 
 root = Tk()
@@ -110,26 +106,31 @@ bu_divide.config(command=lambda : ButtonClick('13'))
 
 
 def ButtonClick(id):
-    global p
-    global n
-    global opr
+
     global num1
     global num2
     global result
-    global clk
-    global clicked
+    global click
+    global add
+    global sub
+    global mul
+    global div
 
     if id == "=":
         try:
-            num2 = convert(p, n)
-            if opr == 10:
-                result = num1+num2
-            if opr == 11:
-                result = num1-num2
-            if opr == 12:
-                result = num1*num2
-            if opr == 13:
-                result = num1/num2
+
+            if add == True:
+                result = int(num1)+int(num2)
+                add = False
+            if sub == True:
+                result = int(num1)-int(num2)
+                sub = False
+            if mul == True:
+                result = int(num1)*int(num2)
+                mul = False
+            if div == 13:
+                result = int(num1)/int(num2)
+                div = False
             display(" = ")
             display(result)
             print(num1, num2, result)
@@ -137,53 +138,54 @@ def ButtonClick(id):
             clear(0)
             display("Maths error")
 
+
+
     elif id == "AC":
-        p.clear()
         result = 0
-        n = 0
-        num1 = 0
-        num2 = 0
+        num1 = ""
+        num2 = ""
         clear(0)
-        clk = 0
+
 
     elif id == "ANS":
         clear(0)
         display(" ANS ")
         num1 = result
-        clk = 1
-    elif int(id) in range(0,10):
+        click = 1
+
+
+    elif int(id) in range(0,9):
         display(id)
-        p.append(id)
-        n = n + 1
-        clicked = clicked + 1
-
-    elif int(id) in range(10, 14):
-        if clk == 1:
-            num1 = result
+        if click == 0:
+            num1 = num1+str(id)
         else:
-            num1 = convert(p, n)
-        if int(id) == 10:
-            display(" + ")
-            opr = 10
-        if int(id) == 11:
-            display(" - ")
-            opr =11
-        if int(id) == 12:
-            display(" X ")
-            opr = 12
-        if int(id) == 13:
-            display(" / ")
-            opr = 13
-        p.clear()
-        n = 0
+            num2 = num2+str(id)
 
 
-def convert(p, n):
-    x = 0
-    for i in p:
-        x = x + i * pow(10, n - 1)
-        n = n - 1
-    return x
+    elif int(id) == int(10):
+        display("+")
+        click = 1
+        add = True
+
+
+    elif int(id) == int(11):
+        display("-")
+        click = 1
+        sub = True
+
+
+    elif int(id) == int(12):
+        display("X")
+        click = 1
+        mul = True
+
+
+    elif int(id) == int(13):
+        display("/")
+        click = 1
+        div = True
+
+
 
 root.mainloop()
 
